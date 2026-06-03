@@ -35,7 +35,6 @@ function createArtist() {
     name: faker.name.findName(),
     age: randomBetween(15, 45),
     yearsActive: randomBetween(0, 15),
-    image: getArtistImage(),
     genre: getGenre(),
     website: faker.internet.url(),
     netWorth: randomBetween(0, 5000000),
