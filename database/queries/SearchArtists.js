@@ -1,4 +1,4 @@
-const Artist = require('../models/artist');
+const Artist = require("../models/artist");
 
 /**
  * Searches through the Artist collection
@@ -15,15 +15,17 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
     .skip(offset)
     .limit(limit);
 
-  return Promise.all([query, Artist.countDocuments()])
-    .then((results) => {
-      return {
-        all: results[0],
-        count: results[1],
-        offset: offset,
-        limit: limit
-      };
-    });
+  return Promise.all([
+    query,
+    Artist.find(buildQuery(criteria)).countDocuments(),
+  ]).then((results) => {
+    return {
+      all: results[0],
+      count: results[1],
+      offset: offset,
+      limit: limit,
+    };
+  });
 };
 
 const buildQuery = (criteria) => {
@@ -36,14 +38,14 @@ const buildQuery = (criteria) => {
   if (criteria.age) {
     query.age = {
       $gte: criteria.age.min,
-      $lte: criteria.age.max
+      $lte: criteria.age.max,
     };
   }
 
   if (criteria.yearsActive) {
     query.yearsActive = {
       $gte: criteria.yearsActive.min,
-      $lte: criteria.yearsActive.max
+      $lte: criteria.yearsActive.max,
     };
   }
 
